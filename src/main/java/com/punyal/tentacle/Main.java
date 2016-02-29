@@ -126,6 +126,13 @@ public class Main {
                     if (error == Error.NO_ERROR.getCode())
                         System.out.print("You are now authenticated with Ticket ["+tentacle.getTicket()+"] till "+DateUtils.long2DateMillis(tentacle.getExpireTime())+"\n");
                     break;
+                case "authorize":
+                    System.out.print("Remote Address: ");
+                    String remoteAddress = System.console().readLine();
+                    System.out.print("Remote Ticket: ");
+                    String remoteTicket = System.console().readLine();
+                    System.out.println("Response: "+tentacle.checkAuthorization(remoteAddress, remoteTicket));
+                    break;
                 case "auto":
                     tentacle.automatic();
                     break;
@@ -170,6 +177,7 @@ public class Main {
         StringBuilder sb = new StringBuilder();
         sb.append("\nList of Commands\n-----------------\n");
         sb.append(padCommand("authenticate",    "Start authentication process"));
+        sb.append(padCommand("authorize",       "Check authorization of other"));
         sb.append(padCommand("auto",            "Start auto-authentication process"));
         sb.append(padCommand("config",          "Configure tentacle and user params"));
         sb.append(padCommand("exit",            "Exit program"));

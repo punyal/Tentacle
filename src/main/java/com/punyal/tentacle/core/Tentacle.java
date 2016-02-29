@@ -309,6 +309,27 @@ public class Tentacle {
         }
     }
     
+    public JSONObject checkAuthorization(String remoteAddress, String remoteTicket) {
+        JSONObject jsonRequest = new JSONObject();
+        jsonRequest.put(JSON_KEY_TICKET, ticket);
+        jsonRequest.put(JSON_KEY_REMOTE_ADDRESS, remoteAddress);
+        jsonRequest.put(JSON_KEY_REMOTE_TICKET, remoteTicket);
+        
+        String uri = (medusaHost instanceof Inet6Address)?
+                "coap://["+medusaHost.getHostAddress()+"]:"+medusaPort+"/"+DEFAULT_AUTHORIZATION_RESOURCE:
+                "coap://"+medusaHost.getHostAddress()+":"+medusaPort+"/"+DEFAULT_AUTHORIZATION_RESOURCE;
+        
+        coapClient = new CoapClient(uri);
+        LOG.debug(coapClient.getURI());
+        
+        coapResponse = coapClient.post(jsonRequest.toJSONString(), APPLICATION_JSON);
+        
+        // Check parsing
+        JSONObject jsonResponse = JsonUtils.parseString(coapResponse.getResponseText());
+        LOG.debug(jsonResponse.toJSONString());
+        return jsonResponse;
+    }
+    
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
