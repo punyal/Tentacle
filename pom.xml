@@ -25,7 +25,13 @@
         <dependency>
             <groupId>org.eclipse.californium</groupId>
             <artifactId>californium-core</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.punyal.tentacle</groupId>
+                    <artifactId>tentacle</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>commons-cli</groupId>
